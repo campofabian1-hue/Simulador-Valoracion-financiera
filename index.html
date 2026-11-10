@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mesa de Valoración Lácteos Altoandino</title>
+<!-- Caso ancla: Lácteos Altoandino del Sur. Cifras de control: WACC 17,98 %, patrimonio 2.904 M COP. -->
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap">
+<style>
+/* Paleta del aula virtual UNIMINUTO (tema Aula Premium d40). Diseño claro deliberado, igual que el aula. */
+:root{
+  --navy:#002C57;--blue:#004A93;--link:#0F6CBF;--gold:#BC955C;--beige:#DAC4A5;--beige-l:#F6F0E6;
+  --text:#334155;--head:#1E293B;--muted:#64748B;--faint:#94A3B8;--line:#DEE2E6;--line2:#B3BDCD;--bg:#F2F5F8;--white:#FFFFFF;
+  --ok:#357A32;--bad:#CA3120;
+  /* tokens usados por los gráficos */
+  --ink:#002C57;--panel:#FFFFFF;--panel2:#F2F5F8;--grid:#E6EAF0;
+  --cyan:#004A93;--violet:#8EA8CF;--pink:#5E6E8C;--amber:#BC955C;--lime:#357A32;--coral:#CA3120;--accent-ink:#FFFFFF;
+  color-scheme:light;
+  --f-head:Poppins,"Segoe UI",system-ui,sans-serif;--f-title:Montserrat,Poppins,"Segoe UI",system-ui,sans-serif;
+  --f-body:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(.23,1,.32,1)
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 40px}
+h1,h2,h3{text-wrap:balance;margin:0;color:var(--head)}
+.num,.mono{font-variant-numeric:tabular-nums}
+a{color:var(--link)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* Encabezado institucional */
+.top{background:var(--white);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.top-band{background:var(--navy);color:#fff;padding:18px 22px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;border-bottom:4px solid var(--gold)}
+.crumb{font:500 12px var(--f-head);color:#C9D6E6;letter-spacing:.02em}
+.top-band h1{color:#fff;font:600 clamp(20px,2.6vw,28px)/1.2 var(--f-title);margin-top:4px}
+.top-band h1 span{color:var(--beige);font-weight:500}
+.offer{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:8px 12px}
+.offer label{font:500 12px var(--f-head);color:#E7EDF5;line-height:1.3}
+.offer input{width:150px;background:#fff;border:0;border-radius:6px;padding:7px 10px;color:var(--navy);font:600 18px var(--f-head);font-variant-numeric:tabular-nums}
+.top-meta{padding:12px 22px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;color:var(--muted);font-size:13px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+.preset{border:0;border-right:1px solid var(--line2);background:var(--white);padding:7px 14px;font:500 13px var(--f-head);color:var(--navy);cursor:pointer;transition:background-color .15s ease}
+.preset:last-child{border-right:0}
+.preset[aria-pressed=true]{background:var(--blue);color:#fff}
+.preset:active{transform:scale(.98)}
+
+/* Franja de resultados */
+.verdict{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+@media (max-width:820px){.verdict{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.vcell{padding:14px 22px;border-right:1px solid var(--line);min-width:0}
+.vcell:last-child{border-right:0}
+@media (max-width:820px){.vcell:nth-child(2n){border-right:0}.vcell:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.vcell .l{font:500 12px var(--f-head);color:var(--muted)}
+.vcell .v{font:600 24px var(--f-head);color:var(--navy);font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap}
+.vcell .s{font-size:12px;color:var(--muted)}
+.vcell.main .v{color:var(--blue)}
+
+/* Pestañas al estilo d40 */
+.tabs{margin-top:16px;background:var(--beige);border-radius:8px;padding:6px;position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.tabs [role=tablist]{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tab{border:0;background:transparent;border-radius:8px;padding:9px 14px;font:600 13.5px var(--f-head);color:var(--head);white-space:nowrap;cursor:pointer;transition:background-color .15s ease,color .15s ease}
+.tab:hover{background:rgba(255,255,255,.45)}
+.tab[aria-selected=true]{background:var(--gold);color:#fff}
+
+/* Distribución */
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:16px;margin-top:16px;align-items:start}
+@media (max-width:980px){.layout{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:8px;min-width:0}
+.levers{position:sticky;top:72px}
+@media (max-width:980px){.levers{position:static}}
+.p-head{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.p-head h2{font:600 15px var(--f-head);color:var(--navy)}
+.p-head .ix{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--navy);display:grid;place-items:center;font:600 12px var(--f-head);color:var(--navy);flex:none}
+.p-body{padding:12px 16px 16px}
+.lever{padding:9px 0;border-bottom:1px solid var(--line)}
+.lever:last-of-type{border-bottom:0}
+.lever .row{display:flex;justify-content:space-between;gap:8px;align-items:baseline;font-size:13px}
+.lever .row label{color:var(--text)}
+.lever .row .num{font:600 13px var(--f-head);color:var(--navy)}
+.lever.changed .row .num{color:#fff;background:var(--gold);padding:0 6px;border-radius:4px}
+input[type=range]{width:100%;accent-color:var(--blue);margin:6px 0 0;height:22px}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{border:1px solid var(--blue);background:var(--white);color:var(--blue);border-radius:8px;padding:8px 14px;cursor:pointer;font:500 13.5px var(--f-head);transition:transform .12s var(--ease),background-color .15s ease}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--blue);color:#fff}
+.toast{font-size:12px;color:var(--ok);min-height:18px;margin-top:6px}
+
+main{min-width:0}
+[role=tabpanel]{display:flex;flex-direction:column;gap:16px}
+[hidden]{display:none!important}
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding:2px 2px 0}
+.sec-title h2{font:600 20px var(--f-head);color:var(--navy)}
+.sec-title p{margin:0;color:var(--muted);font-size:13px;max-width:70ch}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;background:var(--white);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{padding:14px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.kpi .l{font:500 12px var(--f-head);color:var(--muted)}
+.kpi .v{font:600 21px var(--f-head);color:var(--navy);margin-top:2px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12px;color:var(--muted)}
+.pos{color:var(--ok)!important}.neg{color:var(--bad)!important}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.g2,.g3{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:16px;min-width:0}
+.card h3{font:600 14.5px var(--f-head);color:var(--navy);margin-bottom:2px}
+.card .cap{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+svg{display:block;max-width:100%;height:auto}
+svg text{font-family:var(--f-body);font-size:11px;fill:var(--muted)}
+svg .lbl{fill:var(--navy);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:6px;vertical-align:3px}
+.reading{background:var(--beige-l);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;font-size:13.5px;color:var(--text)}
+.reading b{color:var(--navy)}
+.card .reading{margin-top:12px}
+.toggles{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 8px}
+.tg{border:1px solid var(--line2);background:var(--white);border-radius:6px;padding:4px 10px;font:500 12px var(--f-head);color:var(--muted);cursor:pointer}
+.tg[aria-pressed=true]{color:var(--navy);border-color:var(--sc);box-shadow:inset 0 -3px 0 var(--sc)}
+.scroll{overflow-x:auto}
+table.hm{border-collapse:separate;border-spacing:2px;font-size:12px;width:100%;min-width:420px;font-variant-numeric:tabular-nums}
+table.hm th{color:var(--muted);font:500 11.5px var(--f-head);padding:4px}
+table.hm td{padding:8px 2px;text-align:center;border-radius:3px;cursor:pointer;white-space:nowrap}
+table.hm td.cur{outline:2px solid var(--navy);outline-offset:-2px;font-weight:700}
+table.data{border-collapse:collapse;width:100%;font-size:13px;min-width:540px;font-variant-numeric:tabular-nums}
+table.data th,table.data td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+table.data th:first-child,table.data td:first-child{text-align:left}
+table.data thead th{background:var(--navy);color:#fff;font:500 12px var(--f-head);border-bottom:0}
+table.data thead th:first-child{border-radius:6px 0 0 0}table.data thead th:last-child{border-radius:0 6px 0 0}
+table.data tbody tr:nth-child(even) td{background:#F8FAFC}
+table.data tr.tot td{font-weight:700;color:var(--navy);border-top:2px solid var(--navy)}
+table.data.compact{min-width:0;font-size:12px}table.data.compact td:first-child{white-space:normal}table.data.compact th,table.data.compact td{padding:6px 5px}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.chip{display:flex;flex-direction:column;gap:6px;text-align:left;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--white);cursor:pointer;min-width:0;transition:border-color .15s ease,transform .12s var(--ease)}
+.chip:active{transform:scale(.98)}
+.chip .t{font:600 13.5px var(--f-head);color:var(--navy)}
+.chip .d{font-size:12.5px;color:var(--muted)}
+.chip .dl{font:600 14px var(--f-head);font-variant-numeric:tabular-nums}
+.chip[aria-pressed=true]{border-color:var(--gold);background:var(--beige-l);box-shadow:inset 4px 0 0 var(--gold)}
+.mcform{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.mcform label,.field{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+.mcform input,.mcform select,.field input[type=number]{font:500 14px var(--f-body);padding:7px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--white);color:var(--head);min-width:0;width:100%}
+.field .row{display:flex;justify-content:space-between}
+.field .row b{color:var(--navy);font-family:var(--f-head)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:12px}
+.stat{padding:8px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat .l{font:500 11.5px var(--f-head);color:var(--muted)}
+.stat .v{font:600 16px var(--f-head);color:var(--navy);font-variant-numeric:tabular-nums}
+.trow{display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:10px;align-items:center;font-size:13px;margin:6px 0}
+.ttrack{position:relative;height:24px;background:var(--panel2);border-radius:4px}
+.tbar{position:absolute;top:4px;bottom:4px;display:flex}
+.tbar .a{background:var(--bad);border-radius:3px 0 0 3px}
+.tbar .b{background:var(--blue);border-radius:0 3px 3px 0}
+.tmid{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--navy)}
+.tval{position:absolute;top:4px;font-size:11px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.gauges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:520px){.gauges{grid-template-columns:minmax(0,1fr)}}
+footer{color:var(--muted);font-size:12px;margin-top:20px;max-width:110ch;border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+#wc_steps table{width:100%}#wc_steps td,#wc_steps th{white-space:normal;text-align:left;vertical-align:top}#wc_steps td:last-child,#wc_steps th:last-child{text-align:right;white-space:nowrap;font-weight:600}#wc_steps td:nth-child(2){color:var(--muted);font-size:12.5px}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="top-band">
+    <div style="min-width:0">
+      <div class="crumb">UNIMINUTO · Especialización en Gerencia Financiera · Valoración de Empresas y Simulación Financiera</div>
+      <h1>Mesa de valoración <span>· Lácteos Altoandino del Sur S.A.S.</span></h1>
+    </div>
+    <div class="offer"><label for="offer">Oferta por el 100 %<br>de las acciones (M COP)</label><input id="offer" type="number" min="0" step="50" value="2800"></div>
+  </div>
+  <div class="top-meta">
+    <span>Millones de COP · base 31 de diciembre de 2025 · caso ficticio de una empresa láctea de Nariño, con fines académicos</span>
+    <div class="seg" role="group" aria-label="Escenario">
+      <button type="button" class="preset" data-p="pes" aria-pressed="false">Pesimista</button>
+      <button type="button" class="preset" data-p="base" aria-pressed="true">Base</button>
+      <button type="button" class="preset" data-p="opt" aria-pressed="false">Optimista</button>
+    </div>
+  </div>
+  <div class="verdict" id="verdict"></div>
+</header>
+
+<nav class="tabs" aria-label="Secciones de la mesa"><div role="tablist">
+  <button class="tab" role="tab" id="t-resumen" aria-controls="resumen" aria-selected="true">Resumen</button>
+  <button class="tab" role="tab" id="t-historia" aria-controls="historia" aria-selected="false">Historia 2021–2025</button>
+  <button class="tab" role="tab" id="t-perfil" aria-controls="perfil" aria-selected="false">Perfil financiero</button>
+  <button class="tab" role="tab" id="t-wacc" aria-controls="wacc" aria-selected="false">WACC</button>
+  <button class="tab" role="tab" id="t-valor" aria-controls="valor" aria-selected="false">Creación de valor</button>
+  <button class="tab" role="tab" id="t-sensibilidad" aria-controls="sensibilidad" aria-selected="false">Sensibilidad</button>
+  <button class="tab" role="tab" id="t-escenarios" aria-controls="escenarios" aria-selected="false">Escenarios</button>
+  <button class="tab" role="tab" id="t-crisis" aria-controls="crisis" aria-selected="false">Sala de crisis</button>
+  <button class="tab" role="tab" id="t-montecarlo" aria-controls="montecarlo" aria-selected="false">Monte Carlo</button>
+  <button class="tab" role="tab" id="t-credito" aria-controls="credito" aria-selected="false">Covenants</button>
+</div></nav>
+
+<div class="layout">
+  <aside class="panel levers" aria-label="Supuestos del modelo">
+    <div class="p-head"><span class="ix">S</span><h2>Supuestos del modelo</h2></div>
+    <div class="p-body">
+      <p style="margin:0 0 4px;font-size:12.5px;color:var(--muted)">Valores iniciales = modelo de Excel construido en clase. El valor resaltado indica que usted lo cambió.</p>
+      <div id="levers"></div>
+      <div class="btnrow"><button id="reset" type="button" class="btn">Volver al caso base</button><button id="copy" type="button" class="btn primary">Copiar supuestos</button></div>
+      <div class="toast" id="toast" role="status"></div>
+    </div>
+  </aside>
+
+  <main>
+    <section role="tabpanel" id="resumen" aria-labelledby="t-resumen">
+      <div class="sec-title"><h2>1. Resumen de la valoración</h2><p>Valor, rentabilidad sobre el capital y presión financiera, recalculados con cada supuesto.</p></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="reading" id="reading1"></div>
+      <div class="g2">
+        <div class="card"><h3>Puente de valor</h3><p class="cap">Valor presente de los flujos + valor terminal − deuda neta = patrimonio.</p><div id="ch_bridge"></div></div>
+        <div class="card"><h3>Tornado: qué variable manda</h3><p class="cap">Recorrido del patrimonio cuando cada variable se mueve, con las demás fijas.</p><div id="torn"></div><div class="reading" id="reading3"></div></div>
+      </div>
+    </section>
+
+    <section role="tabpanel" id="historia" aria-labelledby="t-historia" hidden>
+      <div class="sec-title"><h2>2. Lo que dicen cinco años de estados financieros</h2></div>
+      <div class="g2">
+        <div class="card"><h3>Ingresos y margen EBITDA</h3><p class="cap">Barras: ingresos (eje izquierdo). Línea: margen EBITDA (eje derecho).</p><div id="ch_rev"></div>
+          <div class="legend"><span><i style="background:var(--violet)"></i>Ingresos</span><span><i style="background:var(--cyan)"></i>Margen EBITDA</span></div></div>
+        <div class="card"><h3>Cartera y apalancamiento</h3><p class="cap">Días de cartera (izquierda) y deuda neta / EBITDA (derecha).</p><div id="ch_risk"></div>
+          <div class="legend"><span><i style="background:var(--amber)"></i>Días de cartera</span><span><i style="background:var(--coral)"></i>Deuda neta / EBITDA</span></div></div>
+      </div>
+      <div class="card"><h3>Indicadores históricos</h3><div class="scroll" id="tb_hist"></div><div class="reading" id="reading_h"></div></div>
+    </section>
+
+    <section role="tabpanel" id="perfil" aria-labelledby="t-perfil" hidden>
+      <div class="sec-title"><h2>3. Perfil financiero</h2><p>Diagrama de araña: cada eje va de 0 (débil) a 100 (fuerte). La proyección del año 5 cambia con sus supuestos.</p></div>
+      <div class="g2">
+        <div class="card"><div class="toggles" id="rad_tg" role="group" aria-label="Series del radar"></div><div id="ch_radar"></div></div>
+        <div class="card"><h3>Puntaje por eje</h3><p class="cap">Escala usada para convertir cada indicador en puntaje.</p><div class="scroll" id="tb_radar"></div><div class="reading" id="reading_r"></div></div>
+      </div>
+    </section>
+
+    <section role="tabpanel" id="wacc" aria-labelledby="t-wacc" hidden>
+      <div class="sec-title"><h2>4. Costo de capital: WACC paso a paso</h2><p>Cambie una pieza y vea cómo se mueven Ke, WACC y el patrimonio. Cuando le convenga, lleve el WACC al modelo.</p></div>
+      <div class="g2">
+        <div class="card"><h3>Las piezas</h3>
+          <div class="mcform">
+            <label for="wc_rf">TES a 10 años (%)<input id="wc_rf" type="number" step="0.1" value="13.18"></label>
+            <label for="wc_erp">Prima de mercado maduro (%)<input id="wc_erp" type="number" step="0.1" value="4.23"></label>
+            <label for="wc_bu">Beta desapalancada<input id="wc_bu" type="number" step="0.01" value="0.56"></label>
+            <label for="wc_wd">Deuda / (deuda + patrimonio) (%)<input id="wc_wd" type="number" step="1" value="33.37"></label>
+            <label for="wc_kd">Kd, tasa del banco (% E.A.)<input id="wc_kd" type="number" step="0.1" value="17.4"></label>
+            <label for="wc_sz">Prima de tamaño e iliquidez (pts)<input id="wc_sz" type="number" step="0.5" value="5.0"></label>
+            <label for="wc_mode" style="grid-column:1/-1">Riesgo país<select id="wc_mode"><option value="A" selected>Caso base: TES + β × prima de mercado</option><option value="B">Consistente: (TES − 1,87) + β × (prima + 2,85)</option><option value="C">Suma simple de 2,85 pts al CAPM (duplica riesgo)</option></select></label>
+          </div>
+          <div class="btnrow"><button id="wc_apply" type="button" class="btn primary">Llevar este WACC al modelo</button><button id="wc_reset" type="button" class="btn">Valores del curso</button></div>
+          <p class="cap" style="margin-top:10px">Fuentes: prima de mercado y beta de Damodaran (enero de 2026). TES y Kd son datos del docente sin verificar en fuente oficial. La prima de tamaño es criterio del analista (rango 3 a 6 puntos).</p>
+        </div>
+        <div class="card"><h3>Los pasos</h3><div class="scroll" id="wc_steps"></div></div>
+      </div>
+      <div class="g2">
+        <div class="card"><h3>De dónde sale el WACC</h3><p class="cap">Cada barra es lo que aporta esa fuente de capital al costo total.</p><div id="ch_wacc"></div></div>
+        <div class="card"><h3>Cuánto mueve cada pieza</h3><p class="cap">Un cambio hacia abajo y hacia arriba, con el resto fijo.</p><div class="scroll" id="tb_wsens"></div></div>
+      </div>
+      <div class="reading" id="wc_read"></div>
+    </section>
+
+    <section role="tabpanel" id="valor" aria-labelledby="t-valor" hidden>
+      <div class="sec-title"><h2>5. Flujo de caja y creación de valor</h2></div>
+      <div class="g2">
+        <div class="card"><h3>Composición del flujo de caja libre</h3><p class="cap">NOPAT y depreciación suman; inversión y KTNO restan. Línea: FCFF.</p><div id="ch_fcf"></div>
+          <div class="legend"><span><i style="background:var(--cyan)"></i>NOPAT</span><span><i style="background:var(--violet)"></i>Depreciación</span><span><i style="background:var(--coral)"></i>CAPEX</span><span><i style="background:var(--amber)"></i>Aumento KTNO</span><span><i style="background:var(--ink)"></i>FCFF</span></div></div>
+        <div class="card"><h3>ROIC frente a WACC y EVA</h3><p class="cap">Barras: EVA de cada año proyectado. Líneas: ROIC y WACC.</p><div id="ch_eva"></div>
+          <div class="legend"><span><i style="background:var(--lime)"></i>EVA positivo</span><span><i style="background:var(--coral)"></i>EVA negativo</span><span><i style="background:var(--cyan)"></i>ROIC</span><span><i style="background:var(--amber)"></i>WACC</span></div></div>
+      </div>
+      <div class="card"><h3>Proyección 2026–2030</h3><div class="scroll" id="tb_proj"></div></div>
+    </section>
+
+    <section role="tabpanel" id="sensibilidad" aria-labelledby="t-sensibilidad" hidden>
+      <div class="sec-title"><h2>6. Sensibilidad y rangos de valor</h2><p>Azul: el valor supera la oferta. Rojo: queda por debajo. Toque una celda para llevar esos supuestos al modelo.</p></div>
+      <div class="g2">
+        <div class="card"><h3>Patrimonio según WACC (filas) y g (columnas)</h3><div class="scroll" id="hm1"></div></div>
+        <div class="card"><h3>Patrimonio según margen EBITDA (filas) y crecimiento (columnas)</h3><div class="scroll" id="hm2"></div></div>
+      </div>
+      <div class="card"><h3>Campo de fútbol</h3><p class="cap">Rangos de valor del patrimonio por método. Líneas: oferta, valor actual y patrimonio contable.</p><div id="ch_ff"></div><div class="reading" id="reading_ff"></div></div>
+    </section>
+
+    <section role="tabpanel" id="escenarios" aria-labelledby="t-escenarios" hidden>
+      <div class="sec-title"><h2>7. Escenarios</h2><p>Asigne probabilidades y obtenga un valor ponderado. Los escenarios parten de sus supuestos actuales.</p></div>
+      <div class="g2">
+        <div class="card"><h3>Supuestos por escenario</h3><div class="scroll" id="tb_sc"></div>
+          <div class="g3" style="margin-top:12px">
+            <label class="field">Peso pesimista (%)<input id="w_pes" type="number" min="0" max="100" value="25"></label>
+            <label class="field">Peso base (%)<input id="w_base" type="number" min="0" max="100" value="50"></label>
+            <label class="field">Peso optimista (%)<input id="w_opt" type="number" min="0" max="100" value="25"></label>
+          </div></div>
+        <div class="card"><h3>Valor por escenario frente a la oferta</h3><div id="ch_sc"></div><div class="reading" id="reading_sc"></div></div>
+      </div>
+    </section>
+
+    <section role="tabpanel" id="crisis" aria-labelledby="t-crisis" hidden>
+      <div class="sec-title"><h2>8. Sala de crisis</h2><p>Active uno o varios choques. Cada tarjeta muestra cuánto mueve el patrimonio sobre el estado actual; la gráfica registra el orden de activación.</p></div>
+      <div class="chips" id="chips"></div>
+      <div class="card"><h3>Trayectoria del valor por ronda</h3><div id="ch_path"></div></div>
+    </section>
+
+    <section role="tabpanel" id="montecarlo" aria-labelledby="t-montecarlo" hidden>
+      <div class="sec-title"><h2>9. Simulación Monte Carlo</h2><p>Sus supuestos son el centro de cada distribución. La misma semilla reproduce el mismo resultado para comparar corridas.</p></div>
+      <div class="card">
+        <div class="mcform">
+          <label for="mc_n">Simulaciones<select id="mc_n"><option>2000</option><option selected>10000</option><option>50000</option></select></label>
+          <label for="mc_seed">Semilla<input id="mc_seed" type="number" value="2026"></label>
+          <label for="mc_sw">σ del WACC (pts)<input id="mc_sw" type="number" step="0.1" value="1.0"></label>
+          <label for="mc_mmin">Margen EBITDA mín. (%)<input id="mc_mmin" type="number" step="0.5" value="11.5"></label>
+          <label for="mc_mmax">Margen EBITDA máx. (%)<input id="mc_mmax" type="number" step="0.5" value="15.5"></label>
+          <label for="mc_gmin">g mín. (%)<input id="mc_gmin" type="number" step="0.5" value="3.0"></label>
+          <label for="mc_gmax">g máx. (%)<input id="mc_gmax" type="number" step="0.5" value="5.0"></label>
+          <label for="mc_sgi">σ crec. ingresos (pts)<input id="mc_sgi" type="number" step="0.5" value="2.0"></label>
+        </div>
+        <div class="btnrow"><button id="run" class="btn primary" type="button">Simular</button></div>
+        <div class="stats" id="stats"></div>
+      </div>
+      <div class="g2">
+        <div class="card"><h3>Distribución del valor del patrimonio</h3><div id="ch_hist"></div></div>
+        <div class="card"><h3>Probabilidad acumulada</h3><div id="ch_cdf"></div></div>
+      </div>
+      <div class="reading" id="reading2"></div>
+    </section>
+
+    <section role="tabpanel" id="credito" aria-labelledby="t-credito" hidden>
+      <div class="sec-title"><h2>10. Covenants: el banco contra la junta</h2><p>Simule un crédito nuevo y una caída del EBITDA de 2025, y compruebe si la empresa cumple las cláusulas.</p></div>
+      <div class="g2">
+        <div class="card">
+          <div class="g3">
+            <label class="field"><span class="row"><span>Crédito nuevo</span><b id="v_loan"></b></span><input id="loan" type="range" min="0" max="3000" step="50" value="500"></label>
+            <label class="field"><span class="row"><span>Caída del EBITDA</span><b id="v_drop"></b></span><input id="drop" type="range" min="0" max="0.5" step="0.01" value="0"></label>
+            <label class="field"><span class="row"><span>Tasa del crédito</span><b id="v_rate"></b></span><input id="rate" type="range" min="0.10" max="0.30" step="0.0025" value="0.174"></label>
+          </div>
+          <div class="g3" style="margin-top:8px">
+            <label class="field">Límite deuda neta / EBITDA (x)<input id="lim_nd" type="number" step="0.1" value="3.5"></label>
+            <label class="field">Cobertura mínima (x)<input id="lim_cob" type="number" step="0.1" value="2.0"></label>
+          </div>
+          <div class="gauges" style="margin-top:12px"><div id="gg1"></div><div id="gg2"></div></div>
+        </div>
+        <div class="card"><h3>Prueba de estrés</h3><p class="cap">Indicadores según la caída del EBITDA, con el crédito elegido.</p><div id="ch_cov"></div>
+          <div class="legend"><span><i style="background:var(--coral)"></i>Deuda neta / EBITDA</span><span><i style="background:var(--cyan)"></i>Cobertura de intereses</span></div>
+          <div class="reading" id="reading_cov"></div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>Modelo: FCFF a cinco años con valor terminal de Gordon, descontado al WACC; depreciación proporcional a ingresos, CAPEX como múltiplo de la depreciación y KTNO proporcional a ingresos. Patrimonio = valor de la empresa − deuda financiera neta de 1.230 millones + lote no operativo de 235 millones. Con los supuestos iniciales el patrimonio es de 2.904 millones, igual al Excel del curso. Del Excel: WACC 17,98 % con Kd 17,4 % E.A. (dato del docente, no verificado), TES a 10 años 13,18 % (no verificado), prima de mercado 4,23 % y βU 0,56 (Damodaran, enero de 2026) y prima de tamaño e iliquidez de 5 puntos (criterio del analista). Puntajes del radar, choques, escenarios y rango de múltiplos son supuestos didácticos, no pronósticos. El Monte Carlo de esta página usa otro generador de números aleatorios que Risk Simulator: sus percentiles se parecen a los de Excel, no son idénticos. Caso ficticio. Prof. Fabián Alexander Campo Insuasty.</footer>
+</div>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var HIST={"rev": [5700, 6300, 6870, 7570, 8300], "cogs": [4246, 4851, 5427, 5814, 6283], "ebit": [643, 567, 468, 678, 849], "ebitda": [838, 787, 708, 938, 1129], "gf": [140, 200, 275, 310, 300], "ni": [326.95, 238.55, 125.45, 239.20000000000002, 356.85], "cash": [130, 115, 90, 120, 160], "cxc": [600, 735, 875, 1000, 1065], "inv": [410, 470, 550, 580, 600], "ac": [1140, 1320, 1515, 1700, 1825], "ppe": [2210, 2380, 2540, 2720, 2890], "at": [3560, 3910, 4275, 4650, 4950], "cxp": [410, 490, 530, 595, 600], "dst": [315, 395, 490, 455, 400], "pc": [860, 1025, 1175, 1220, 1185], "dlt": [850, 990, 1130, 1085, 990], "pt": [1710, 2015, 2305, 2305, 2175], "eq": [1850, 1895, 1970, 2345, 2775]};
+var YRS=[2021,2022,2023,2024,2025];
+var BASE={"w":0.1797935913565426,"g":0.04,"m":0.136,"gi":0.07,"T":0.35,"cx":1.05,"dn":0.12831325301204818,"nd":1230};
+var FIX={"ing0":8300,"dap":0.033734939759036145,"ebitda24":1129,"book":2775,"ci0":4005,"nd0":1230,"cash0":160,"kd":0.174,"gf0":300,"onop":235};
+var fmt=new Intl.NumberFormat('es-CO',{maximumFractionDigits:0});
+var fm=function(x){return (x<0?'−':'')+fmt.format(Math.abs(Math.round(x)))};
+var pc=function(x,d){return (x<0?'−':'')+(Math.abs(x)*100).toFixed(d==null?1:d).replace('.',',')+' %'};
+var fx=function(x,d){return (x<0?'−':'')+Math.abs(x).toFixed(d==null?2:d).replace('.',',')+'x'};
+var css=function(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()};
+var LEV=[
+ ['w','WACC',.10,.25,.0025,function(v){return pc(v,2)}],
+ ['g','Crecimiento terminal g',.01,.07,.0025,function(v){return pc(v,2)}],
+ ['m','Margen EBITDA proyectado',.08,.18,.0025,function(v){return pc(v,1)}],
+ ['gi','Crecimiento anual de ingresos',-.02,.12,.005,function(v){return pc(v,1)}],
+ ['cx','CAPEX / depreciación',.7,1.6,.05,function(v){return fx(v)}],
+ ['dn','KTNO / ingresos',.05,.20,.005,function(v){return pc(v,1)}],
+ ['T','Tarifa de impuesto',.25,.45,.01,function(v){return pc(v,0)}],
+ ['nd','Deuda financiera neta (M COP)',500,2500,10,function(v){return fm(v)}]
+];
+var S=Object.assign({},BASE);
+var PRESET={pes:{m:-.02,gi:-.03,w:.015,g:-.01},base:{},opt:{m:.015,gi:.03,w:-.01,g:.005}};
+var SHOCKS=[
+ {id:'tasas',t:'El Banco de la República sube tasas',d:'El costo de capital sube 2 puntos.',f:function(p){p.w+=.02}},
+ {id:'cliente',t:'Se pierde el principal cliente institucional',d:'Ingresos crecen 3 puntos menos y el margen cae 1,5 puntos.',f:function(p){p.gi-=.03;p.m-=.015}},
+ {id:'leche',t:'Sube el precio de la leche cruda 12 %',d:'La materia prima pesa más y no se alcanza a trasladar: margen −1,5 puntos.',f:function(p){p.m-=.015}},
+ {id:'dev',t:'Devaluación del 15 %',d:'Empaques y maquinaria importados: margen −0,5 puntos, CAPEX +10 % sobre depreciación, WACC +0,5 puntos.',f:function(p){p.m-=.005;p.cx+=.10;p.w+=.005}},
+ {id:'ref',t:'Nueva reforma tributaria',d:'La tarifa efectiva sube 3 puntos.',f:function(p){p.T+=.03}},
+ {id:'contrato',t:'Contrato con una cadena de supermercados',d:'Ingresos crecen 2 puntos más y el margen sube 0,5 puntos.',f:function(p){p.gi+=.02;p.m+=.005}}
+];
+var active={},order=[];
+
+/* ---------- modelo (idéntico al Excel) ---------- */
+function model(p){
+  if(p.w-p.g<.005) return null;
+  var pv=0,f=0,i,ing,da,nop,prev=FIX.ing0;
+  for(i=1;i<=5;i++){
+    ing=FIX.ing0*Math.pow(1+p.gi,i); da=FIX.dap*ing;
+    nop=(ing*p.m-da)*(1-p.T);
+    f=nop+da-da*p.cx-p.dn*(ing-prev); prev=ing;
+    pv+=f/Math.pow(1+p.w,i);
+  }
+  var tv=f*(1+p.g)/(p.w-p.g)/Math.pow(1+p.w,5);
+  var ev=pv+tv;
+  return {ev:ev,eq:ev-p.nd+FIX.onop,pv:pv,tv:tv,tvp:tv/ev};
+}
+function proj(p){
+  var rows=[],prev=FIX.ing0,ci=FIX.ci0,i;
+  for(i=1;i<=5;i++){
+    var ing=FIX.ing0*Math.pow(1+p.gi,i),da=FIX.dap*ing,ebitda=ing*p.m,ebit=ebitda-da,nop=ebit*(1-p.T),capex=da*p.cx,dk=p.dn*(ing-prev),f=nop+da-capex-dk;
+    var roic=nop/ci,eva=nop-p.w*ci;
+    rows.push({y:2025+i,ing:ing,ebitda:ebitda,da:da,ebit:ebit,nop:nop,capex:capex,dk:dk,f:f,ci0:ci,roic:roic,eva:eva,pv:f/Math.pow(1+p.w,i)});
+    ci=ci+capex-da+dk; prev=ing;
+  }
+  return rows;
+}
+function eff(){var p=Object.assign({},S);SHOCKS.forEach(function(s){if(active[s.id])s.f(p)});return p}
+
+/* ---------- históricos ---------- */
+var HM=YRS.map(function(y,i){
+  var debt=HIST.dst[i]+HIST.dlt[i],nd=debt-HIST.cash[i],ci=HIST.eq[i]+nd,nop=Math.max(0,HIST.ebit[i])*(1-.35);
+  return {y:y,rev:HIST.rev[i],gr:i?HIST.rev[i]/HIST.rev[i-1]-1:null,mE:HIST.ebitda[i]/HIST.rev[i],mN:HIST.ni[i]/HIST.rev[i],roic:nop/ci,
+    cob:HIST.ebitda[i]/HIST.gf[i],ndE:nd/HIST.ebitda[i],dias:HIST.cxc[i]/HIST.rev[i]*365,liq:HIST.ac[i]/HIST.pc[i],roe:HIST.ni[i]/HIST.eq[i],ebitda:HIST.ebitda[i],nd:nd,ktno:(HIST.cxc[i]+HIST.inv[i]-HIST.cxp[i])/HIST.rev[i]};
+});
+
+/* ---------- utilidades SVG ---------- */
+function ticks(a,b,n){var span=b-a||1,step=Math.pow(10,Math.floor(Math.log10(span/n))),err=span/n/step;if(err>=7.5)step*=10;else if(err>=3.5)step*=5;else if(err>=1.5)step*=2;var t=[],v=Math.ceil(a/step)*step;for(;v<=b+1e-9;v+=step)t.push(+v.toFixed(10));return t}
+function sc(d0,d1,r0,r1){return function(v){return r0+(v-d0)/((d1-d0)||1)*(r1-r0)}}
+function svg(w,h,inner,lab){return '<svg viewBox="0 0 '+w+' '+h+'" width="100%" role="img" aria-label="'+lab+'">'+inner+'</svg>'}
+function short(v){return fm(v)}
+function hline(x0,x1,y,col,dash){return '<line x1="'+x0+'" x2="'+x1+'" y1="'+y+'" y2="'+y+'" stroke="'+col+'" stroke-width="1"'+(dash?' stroke-dasharray="4 4"':'')+'/>'}
+
+/* ---------- palancas ---------- */
+function buildLevers(){
+  $('levers').innerHTML=LEV.map(function(L){
+    return '<div class="lever" id="lv_'+L[0]+'"><div class="row"><label for="in_'+L[0]+'">'+L[1]+'</label><span class="num" id="vl_'+L[0]+'"></span></div><input type="range" id="in_'+L[0]+'" min="'+L[2]+'" max="'+L[3]+'" step="'+L[4]+'" value="'+S[L[0]]+'"></div>';
+  }).join('');
+  LEV.forEach(function(L){$('in_'+L[0]).addEventListener('input',function(e){S[L[0]]=parseFloat(e.target.value);setPreset(null);update()})});
+}
+function refreshLevers(){LEV.forEach(function(L){var k=L[0];$('vl_'+k).textContent=L[5](S[k]);$('lv_'+k).className='lever'+(Math.abs(S[k]-BASE[k])>1e-9?' changed':'');$('in_'+k).value=S[k]})}
+function setPreset(id){[].forEach.call(document.querySelectorAll('.preset'),function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-p')===id))})}
+
+function kpi(l,v,s,cls,col){return '<div class="kpi" style="--c:'+(col||'var(--cyan)')+'"><div class="l">'+l+'</div><div class="v '+(cls||'')+'">'+v+'</div><div class="s">'+(s||'')+'</div></div>'}
+function vcell(l,v,s,main,cls){return '<div class="vcell'+(main?' main':'')+'"><div class="l">'+l+'</div><div class="v '+(cls||'')+'">'+v+'</div><div class="s">'+s+'</div></div>'}
+
+var LAST=null;
+function update(){
+  refreshLevers();
+  var p=eff(),r=model(p),offer=parseFloat($('offer').value)||0;
+  if(!r){$('kpis').innerHTML=kpi('Error','WACC ≤ g','El WACC debe superar a g en al menos 0,5 puntos.','neg','var(--coral)');return}
+  var P=proj(p),y5=P[4],e5=y5.ebitda,debt=p.nd+FIX.cash0,int5=FIX.kd*debt,mva=r.ev-FIX.ci0,gap=r.eq-offer;
+  $('verdict').innerHTML=
+    vcell('Valor del patrimonio',fm(r.eq),'millones COP con sus supuestos',true)+
+    vcell('Frente a la oferta',(gap>=0?'+':'')+fm(gap),gap>=0?'su valor supera la oferta':'la oferta supera su valor',false,gap>=0?'pos':'neg')+
+    vcell('P(valor < oferta)',LAST?pc(LAST.pOver,0):'—',LAST?'Monte Carlo, semilla '+LAST.seed:'ejecute el Monte Carlo')+
+    vcell('Valor / libros',fx(r.eq/FIX.book),'patrimonio contable '+fm(FIX.book));
+  $('kpis').innerHTML=
+    kpi('Valor empresa (EV)',fm(r.ev),'EV/EBITDA 2025: '+fx(r.ev/FIX.ebitda24,1),'','var(--violet)')+
+    kpi('Peso del valor terminal',pc(r.tvp,0),r.tvp>.8?'Por encima de 80 %: revise g y WACC':'del EV',r.tvp>.8?'neg':'','var(--pink)')+
+    kpi('WACC',pc(p.w,2),'g = '+pc(p.g,2)+' · spread '+pc(p.w-p.g,1),'','var(--amber)')+
+    kpi('ROIC año 5',pc(y5.roic,1),'vs WACC '+pc(p.w,1),y5.roic>=p.w?'pos':'neg',y5.roic>=p.w?'var(--lime)':'var(--coral)')+
+    kpi('EVA año 1',fm(P[0].eva),'NOPAT − WACC × capital',P[0].eva>=0?'pos':'neg',P[0].eva>=0?'var(--lime)':'var(--coral)')+
+    kpi('MVA',fm(mva),'EV − capital invertido '+fm(FIX.ci0),mva>=0?'pos':'neg',mva>=0?'var(--lime)':'var(--coral)')+
+    kpi('Deuda neta / EBITDA año 5',fx(p.nd/e5),'2025: '+fx(FIX.nd0/FIX.ebitda24),p.nd/e5>3.5?'neg':'','var(--coral)')+
+    kpi('Cobertura de intereses año 5',fx(e5/int5),'EBITDA / intereses',e5/int5<2?'neg':'','var(--cyan)');
+  var mBE=breakeven(p,offer);
+  $('reading1').innerHTML='<b>Lectura.</b> Con sus supuestos el patrimonio vale '+fm(r.eq)+' millones, '+(gap>=0?'por encima':'por debajo')+' de la oferta de '+fm(offer)+'. '+
+    (mBE!=null?'Para que el valor iguale la oferta, el margen EBITDA tendría que sostenerse en '+pc(mBE,2)+' durante cinco años; la empresa promedió '+pc(avg(HM.map(function(h){return h.mE})),1)+' entre 2021 y 2025 y registró '+pc(HM[4].mE,1)+' en 2025. ':'')+
+    'El ROIC proyectado del año 5 ('+pc(y5.roic,1)+') '+(y5.roic>=p.w?'supera el':'queda por debajo del')+' WACC ('+pc(p.w,1)+'): '+(y5.roic>=p.w?'la operación crearía valor sobre el capital invertido.':'la empresa rinde menos de lo que cuesta su capital, y por eso el valor de la empresa queda cerca o por debajo del capital invertido.');
+  drawBridge(r,p);drawFCF(P);drawEVA(P,p);tableProj(P,r);drawRadar(p,P);heat(p,offer);scen(p,offer);ff(p,r,offer);chips(p,r);drawPath();tornado(p,r);waccPanel();
+}
+function avg(a){return a.reduce(function(x,y){return x+y},0)/a.length}
+function breakeven(p,offer){var lo=.0,hi=.4,i,q;for(i=0;i<60;i++){q=Object.assign({},p);q.m=(lo+hi)/2;var r=model(q);if(!r)return null;if(r.eq<offer)lo=q.m;else hi=q.m}return (lo+hi)/2>.39?null:(lo+hi)/2}
+
+/* ---------- historia ---------- */
+function drawHist(){
+  var W=620,H=260,L=56,R=48,T=16,B=30,max=Math.max.apply(null,HIST.rev)*1.12;
+  var y=sc(0,max,H-B,T),y2=sc(0,.18,H-B,T),bw=(W-L-R)/5,s='';
+  ticks(0,max,4).forEach(function(t){s+=hline(L,W-R,y(t),css('--grid'))+'<text x="'+(L-6)+'" y="'+(y(t)+4)+'" text-anchor="end">'+short(t)+'</text>'});
+  [0,.05,.1,.15].forEach(function(t){s+='<text x="'+(W-R+6)+'" y="'+(y2(t)+4)+'">'+pc(t,0)+'</text>'});
+  var pts=[];
+  HM.forEach(function(h,i){var x=L+i*bw+bw*.18,w=bw*.64;s+='<rect x="'+x+'" y="'+y(h.rev)+'" width="'+w+'" height="'+(H-B-y(h.rev))+'" rx="5" fill="var(--violet)" opacity=".85"><title>'+h.y+': ingresos '+fm(h.rev)+'</title></rect>';
+    s+='<text x="'+(x+w/2)+'" y="'+(H-10)+'" text-anchor="middle">'+h.y+'</text>';pts.push([x+w/2,y2(h.mE)])});
+  s+='<polyline points="'+pts.map(function(q){return q.join(',')}).join(' ')+'" fill="none" stroke="var(--cyan)" stroke-width="3"/>';
+  pts.forEach(function(q,i){s+='<circle cx="'+q[0]+'" cy="'+q[1]+'" r="5" fill="var(--cyan)" stroke="var(--panel)" stroke-width="2"/><text class="lbl" x="'+q[0]+'" y="'+(q[1]-10)+'" text-anchor="middle">'+pc(HM[i].mE,1)+'</text>'});
+  $('ch_rev').innerHTML=svg(W,H,s,'Ingresos y margen EBITDA 2021 a 2025');
+  var y3=sc(0,90,H-B,T),y4=sc(0,8,H-B,T),s2='',p1=[],p2=[];
+  [0,30,60,90].forEach(function(t){s2+=hline(L,W-R,y3(t),css('--grid'))+'<text x="'+(L-6)+'" y="'+(y3(t)+4)+'" text-anchor="end">'+t+' d</text>'});
+  [0,2,4,6,8].forEach(function(t){s2+='<text x="'+(W-R+6)+'" y="'+(y4(t)+4)+'">'+fx(t,1)+'</text>'});
+  HM.forEach(function(h,i){var x=L+i*bw+bw/2;p1.push([x,y3(h.dias)]);p2.push([x,y4(h.ndE)]);s2+='<text x="'+x+'" y="'+(H-10)+'" text-anchor="middle">'+h.y+'</text>'});
+  s2+='<polyline points="'+p1.map(function(q){return q.join(',')}).join(' ')+'" fill="none" stroke="var(--amber)" stroke-width="3"/>';
+  s2+='<polyline points="'+p2.map(function(q){return q.join(',')}).join(' ')+'" fill="none" stroke="var(--coral)" stroke-width="3" stroke-dasharray="7 4"/>';
+  p1.forEach(function(q,i){s2+='<circle cx="'+q[0]+'" cy="'+q[1]+'" r="4.5" fill="var(--amber)"/><text class="lbl" x="'+q[0]+'" y="'+(q[1]-9)+'" text-anchor="middle">'+Math.round(HM[i].dias)+'</text>'});
+  p2.forEach(function(q,i){s2+='<rect x="'+(q[0]-4)+'" y="'+(q[1]-4)+'" width="8" height="8" fill="var(--coral)"/><text class="lbl" x="'+q[0]+'" y="'+(q[1]+18)+'" text-anchor="middle">'+fx(HM[i].ndE,1)+'</text>'});
+  $('ch_risk').innerHTML=svg(W,H,s2,'Días de cartera y deuda neta sobre EBITDA');
+  var rows=[['Crecimiento de ingresos',function(h){return h.gr==null?'—':pc(h.gr,1)}],['Margen EBITDA',function(h){return pc(h.mE,1)}],['Margen neto',function(h){return pc(h.mN,1)}],['ROIC',function(h){return pc(h.roic,1)}],['ROE',function(h){return pc(h.roe,1)}],['Días de cartera',function(h){return Math.round(h.dias)}],['KTNO / ingresos',function(h){return pc(h.ktno,1)}],['Razón corriente',function(h){return fx(h.liq)}],['Deuda neta / EBITDA',function(h){return fx(h.ndE)}],['Cobertura de intereses',function(h){return fx(h.cob)}]];
+  $('tb_hist').innerHTML='<table class="data"><thead><tr><th>Indicador</th>'+YRS.map(function(y){return '<th>'+y+'</th>'}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td>'+HM.map(function(h){return '<td>'+r[1](h)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>';
+  $('reading_h').innerHTML='<b>Lectura.</b> Los ingresos crecieron '+pc(HM[4].rev/HM[0].rev-1,0)+' en cinco años ('+pc(Math.pow(HM[4].rev/HM[0].rev,.25)-1,1)+' anual). Los días de cartera pasaron de '+Math.round(HM[0].dias)+' a '+Math.round(HM[4].dias)+' y el margen EBITDA de '+pc(HM[0].mE,1)+' a '+pc(HM[4].mE,1)+', con un mínimo de '+pc(Math.min.apply(null,HM.map(function(h){return h.mE})),1)+'. La cobertura de intereses cayó de '+fx(HM[0].cob,1)+' a '+fx(HM[4].cob,1)+' porque los gastos financieros subieron de '+fm(HIST.gf[0])+' a '+fm(HIST.gf[4])+' millones, aunque la deuda neta sobre EBITDA bajó de '+fx(HM[0].ndE,1)+' a '+fx(HM[4].ndE,1)+'. Antes de proyectar un crecimiento del 7 %, el analista debe explicar por qué el ritmo histórico baja y qué hará la empresa con el cobro a clientes.';
+}
+
+/* ---------- radar ---------- */
+var AX=[['Margen EBITDA','mE',0,.2,'Margen EBITDA'],['Margen neto','mN',-.05,.1,'Margen neto'],['ROIC','roic',0,.20,'ROIC'],['Cobertura de intereses','cob',0,6,'Cobertura'],['Apalancamiento (inverso de DN/EBITDA)','ndE',4,0,'Apalancamiento'],['Recaudo (inverso de días de cartera)','dias',90,30,'Recaudo'],['Liquidez (razón corriente)','liq',.5,2,'Liquidez'],['Crecimiento de ingresos','gr',-.05,.2,'Crecimiento']];
+var RS=[{k:'2022',c:'--violet',on:false},{k:'2023',c:'--coral',on:true},{k:'2024',c:'--amber',on:false},{k:'2025',c:'--pink',on:true},{k:'Proyección año 5',c:'--cyan',on:true}];
+function score(a,v){var t=(v-a[2])/(a[3]-a[2]);return Math.max(0,Math.min(100,t*100))}
+function projMetrics(p,P){var y5=P[4],debt=p.nd+FIX.cash0,intr=FIX.kd*debt;return {mE:p.m,mN:(y5.ebit-intr)*(1-p.T)/y5.ing,roic:y5.roic,cob:y5.ebitda/intr,ndE:p.nd/y5.ebitda,dias:HM[4].dias*p.dn/BASE.dn,liq:HM[4].liq,gr:p.gi}}
+function drawRadar(p,P){
+  var pm=projMetrics(p,P),data={};HM.forEach(function(h){data[String(h.y)]=h});data['Proyección año 5']=pm;
+  var W=600,H=460,cx=W/2,cy=H/2+4,R=168,n=AX.length,s='';
+  [20,40,60,80,100].forEach(function(k){var pts=[];for(var i=0;i<n;i++){var a=-Math.PI/2+i*2*Math.PI/n;pts.push((cx+Math.cos(a)*R*k/100)+','+(cy+Math.sin(a)*R*k/100))}s+='<polygon points="'+pts.join(' ')+'" fill="none" stroke="var(--grid)"/>'});
+  AX.forEach(function(ax,i){var a=-Math.PI/2+i*2*Math.PI/n,x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+x+'" y2="'+y+'" stroke="var(--grid)"/>';
+    var lx=cx+Math.cos(a)*(R+18),ly=cy+Math.sin(a)*(R+18),anc=Math.abs(Math.cos(a))<.2?'middle':(Math.cos(a)>0?'start':'end');
+    s+='<text class="lbl" x="'+lx+'" y="'+(ly+4)+'" text-anchor="'+anc+'">'+ax[4]+'</text>'});
+  RS.forEach(function(sr){if(!sr.on)return;var d=data[sr.k],pts=[];AX.forEach(function(ax,i){var v=d[ax[1]];var sc_=v==null?50:score(ax,v),a=-Math.PI/2+i*2*Math.PI/n;pts.push((cx+Math.cos(a)*R*sc_/100)+','+(cy+Math.sin(a)*R*sc_/100))});
+    s+='<polygon points="'+pts.join(' ')+'" fill="var('+sr.c+')" fill-opacity=".14" stroke="var('+sr.c+')" stroke-width="2.5"'+(sr.k.indexOf('Proy')===0?'':' stroke-dasharray="0"')+'><title>'+sr.k+'</title></polygon>';
+    pts.forEach(function(q){var c=q.split(',');s+='<circle cx="'+c[0]+'" cy="'+c[1]+'" r="3.5" fill="var('+sr.c+')"/>'})});
+  $('ch_radar').innerHTML=svg(W,H,s,'Diagrama de araña del perfil financiero');
+  $('rad_tg').innerHTML=RS.map(function(sr,i){return '<button type="button" class="tg" style="--sc:var('+sr.c+')" data-i="'+i+'" aria-pressed="'+sr.on+'"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var('+sr.c+');margin-right:6px"></i>'+sr.k+'</button>'}).join('');
+  [].forEach.call($('rad_tg').querySelectorAll('.tg'),function(b){b.onclick=function(){var i=+b.getAttribute('data-i');RS[i].on=!RS[i].on;drawRadar(eff(),proj(eff()))}});
+  var fmtA={mE:function(v){return pc(v,1)},mN:function(v){return pc(v,1)},roic:function(v){return pc(v,1)},cob:function(v){return fx(v,1)},ndE:function(v){return fx(v,1)},dias:function(v){return Math.round(v)+' d'},liq:function(v){return fx(v)},gr:function(v){return v==null?'—':pc(v,1)}};
+  $('tb_radar').innerHTML='<table class="data compact"><thead><tr><th>Eje (0 → 100)</th><th>2023</th><th>2025</th><th>Proy. año 5</th></tr></thead><tbody>'+AX.map(function(ax){var k=ax[1];var f=fmtA[k];return '<tr><td>'+ax[0]+'<br><span style="color:var(--faint);font-size:11px">'+f(ax[2])+' → '+f(ax[3])+'</span></td><td>'+f(data['2023'][k])+'<br><b>'+Math.round(score(ax,data['2023'][k]))+'</b></td><td>'+f(data['2025'][k])+'<br><b>'+Math.round(score(ax,data['2025'][k]))+'</b></td><td>'+f(pm[k])+'<br><b>'+Math.round(score(ax,pm[k]))+'</b></td></tr>'}).join('')+'</tbody></table>';
+  var tot=function(d){return avg(AX.map(function(ax){var v=d[ax[1]];return v==null?50:score(ax,v)}))};
+  var weak=AX.slice().sort(function(a,b){return score(a,pm[a[1]])-score(b,pm[b[1]])})[0];
+  $('reading_r').innerHTML='<b>Lectura.</b> El puntaje promedio pasa de '+Math.round(tot(data['2023']))+' en 2023 a '+Math.round(tot(data['2025']))+' en 2025 y a '+Math.round(tot(pm))+' en la proyección. El eje más débil de la proyección es <b>'+weak[0].split(' (')[0].toLowerCase()+'</b>; es el frente que un comprador o un banco mirará primero.';
+}
+
+/* ---------- puente, FCF, EVA ---------- */
+function drawBridge(r,p){
+  var W=600,H=280,L=64,R=16,T=20,B=40,steps=[['VP flujos',r.pv,'--cyan'],['VP terminal',r.tv,'--violet'],['Valor empresa',r.ev,'--ink'],['− Deuda neta',-p.nd,'--coral'],['+ Lote',FIX.onop,'--amber'],['Patrimonio',r.eq,'--lime']],n=steps.length;
+  var mx=Math.max(r.ev,0)*1.1,mn=Math.min(0,r.eq)*1.1,y=sc(mn,mx,H-B,T),bw=(W-L-R)/n,s='',run=0;
+  ticks(mn,mx,4).forEach(function(t){s+=hline(L,W-R,y(t),css('--grid'))+'<text x="'+(L-6)+'" y="'+(y(t)+4)+'" text-anchor="end">'+short(t)+'</text>'});
+  s+=hline(L,W-R,y(0),css('--muted'));
+  steps.forEach(function(st,i){var x=L+i*bw+bw*.15,w=bw*.7,a,b;
+    if(i===2||i===5){a=0;b=st[1];run=st[1]}else{a=run;b=run+st[1];run=b}
+    var top=y(Math.max(a,b)),hgt=Math.max(2,Math.abs(y(a)-y(b)));
+    s+='<rect x="'+x+'" y="'+top+'" width="'+w+'" height="'+hgt+'" rx="5" fill="var('+st[2]+')" opacity="'+(i===2?.75:.9)+'"/>';
+    s+='<text class="lbl" x="'+(x+w/2)+'" y="'+(top-6)+'" text-anchor="middle">'+short(st[1])+'</text><text x="'+(x+w/2)+'" y="'+(H-18)+'" text-anchor="middle">'+st[0]+'</text>';
+    if(i<n-1)s+='<line x1="'+(x+w)+'" x2="'+(x+bw)+'" y1="'+y(run)+'" y2="'+y(run)+'" stroke="var(--faint)" stroke-dasharray="3 3"/>'});
+  $('ch_bridge').innerHTML=svg(W,H,s,'Puente del valor de la empresa al patrimonio');
+}
+function drawFCF(P){
+  var W=600,H=280,L=60,R=16,T=16,B=30,mx=0,mn=0;
+  P.forEach(function(r){mx=Math.max(mx,r.nop+r.da);mn=Math.min(mn,-(r.capex+r.dk))});
+  mx*=1.12;mn*=1.12;var y=sc(mn,mx,H-B,T),bw=(W-L-R)/5,s='',pts=[];
+  ticks(mn,mx,5).forEach(function(t){s+=hline(L,W-R,y(t),css('--grid'))+'<text x="'+(L-6)+'" y="'+(y(t)+4)+'" text-anchor="end">'+short(t)+'</text>'});
+  s+=hline(L,W-R,y(0),css('--muted'));
+  P.forEach(function(r,i){var x=L+i*bw+bw*.2,w=bw*.6,n0=Math.max(0,r.nop);
+    s+='<rect x="'+x+'" y="'+y(n0)+'" width="'+w+'" height="'+(y(0)-y(n0))+'" fill="var(--cyan)"/>';
+    s+='<rect x="'+x+'" y="'+y(n0+r.da)+'" width="'+w+'" height="'+(y(n0)-y(n0+r.da))+'" fill="var(--violet)"/>';
+    s+='<rect x="'+x+'" y="'+y(0)+'" width="'+w+'" height="'+(y(-r.capex)-y(0))+'" fill="var(--coral)"/>';
+    s+='<rect x="'+x+'" y="'+y(-r.capex)+'" width="'+w+'" height="'+(y(-r.capex-r.dk)-y(-r.capex))+'" fill="var(--amber)"/>';
+    s+='<text x="'+(x+w/2)+'" y="'+(H-10)+'" text-anchor="middle">'+r.y+'</text>';pts.push([x+w/2,y(r.f)])});
+  s+='<polyline points="'+pts.map(function(q){return q.join(',')}).join(' ')+'" fill="none" stroke="var(--ink)" stroke-width="2.5"/>';
+  pts.forEach(function(q,i){s+='<circle cx="'+q[0]+'" cy="'+q[1]+'" r="4.5" fill="var(--ink)"/><text class="lbl" x="'+(q[0]+8)+'" y="'+(q[1]-8)+'">'+short(P[i].f)+'</text>'});
+  $('ch_fcf').innerHTML=svg(W,H,s,'Composición del flujo de caja libre proyectado');
+}
+function drawEVA(P,p){
+  var W=600,H=280,L=60,R=48,T=16,B=30,mx=Math.max(0,Math.max.apply(null,P.map(function(r){return r.eva}))),mn=Math.min(0,Math.min.apply(null,P.map(function(r){return r.eva})));
+  var pad=(mx-mn)*.15||1000;mx+=pad;mn-=pad;var y=sc(mn,mx,H-B,T),y2=sc(0,.2,H-B,T),bw=(W-L-R)/5,s='',p1=[];
+  ticks(mn,mx,4).forEach(function(t){s+=hline(L,W-R,y(t),css('--grid'))+'<text x="'+(L-6)+'" y="'+(y(t)+4)+'" text-anchor="end">'+short(t)+'</text>'});
+  [0,.05,.1,.15,.2].forEach(function(t){s+='<text x="'+(W-R+6)+'" y="'+(y2(t)+4)+'">'+pc(t,0)+'</text>'});
+  s+=hline(L,W-R,y(0),css('--muted'));
+  P.forEach(function(r,i){var x=L+i*bw+bw*.22,w=bw*.56,col=r.eva>=0?'--lime':'--coral';s+='<rect x="'+x+'" y="'+Math.min(y(0),y(r.eva))+'" width="'+w+'" height="'+Math.abs(y(r.eva)-y(0))+'" rx="4" fill="var('+col+')" opacity=".85"/><text x="'+(x+w/2)+'" y="'+(H-10)+'" text-anchor="middle">'+r.y+'</text><text class="lbl" x="'+(x+w/2)+'" y="'+(r.eva>=0?y(r.eva)-6:y(r.eva)+14)+'" text-anchor="middle">'+short(r.eva)+'</text>';p1.push([x+w/2,y2(Math.max(0,Math.min(.2,r.roic)))])});
+  s+='<polyline points="'+p1.map(function(q){return q.join(',')}).join(' ')+'" fill="none" stroke="var(--cyan)" stroke-width="3"/>';
+  s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y2(p.w)+'" y2="'+y2(p.w)+'" stroke="var(--amber)" stroke-width="2" stroke-dasharray="6 4"/><text x="'+(W-R-4)+'" y="'+(y2(p.w)-6)+'" text-anchor="end" style="fill:var(--amber)">WACC '+pc(p.w,1)+'</text>';
+  $('ch_eva').innerHTML=svg(W,H,s,'EVA proyectado y ROIC frente a WACC');
+}
+function tableProj(P,r){
+  var rows=[['Ingresos','ing'],['EBITDA','ebitda'],['Depreciación','da'],['EBIT','ebit'],['NOPAT','nop'],['CAPEX','capex'],['Aumento KTNO','dk'],['FCFF','f'],['Valor presente','pv'],['ROIC','roic'],['EVA','eva']];
+  $('tb_proj').innerHTML='<table class="data"><thead><tr><th>Concepto</th>'+P.map(function(x){return '<th>'+x.y+'</th>'}).join('')+'</tr></thead><tbody>'+rows.map(function(rw){return '<tr'+(rw[1]==='f'?' class="tot"':'')+'><td>'+rw[0]+'</td>'+P.map(function(x){return '<td>'+(rw[1]==='roic'?pc(x.roic,1):fm(x[rw[1]]))+'</td>'}).join('')+'</tr>'}).join('')+
+  '<tr class="tot"><td>Valor terminal (VP)</td><td colspan="5">'+fm(r.tv)+'</td></tr></tbody></table>';
+}
+
+/* ---------- mapas de calor ---------- */
+var HMV={};
+function heat(p,offer){
+  function cell(v){var d=offer?Math.max(-1,Math.min(1,(v-offer)/Math.max(offer,1))):0,col=d>=0?'var(--cyan)':'var(--coral)',k=Math.round(18+Math.abs(d)*62);return 'background:color-mix(in oklab,'+col+' '+k+'%,var(--panel));color:var(--ink)'}
+  function grid(id,rk,ck,rv,cv,rf,cf){
+    var h='<table class="hm"><thead><tr><th></th>'+cv.map(function(c){return '<th>'+cf(c)+'</th>'}).join('')+'</tr></thead><tbody>';
+    var vals=[];
+    rv.forEach(function(rr,i){h+='<tr><th>'+rf(rr)+'</th>';cv.forEach(function(cc,j){var q=Object.assign({},p);q[rk]=rr;q[ck]=cc;var m=model(q);var v=m?m.eq:null;if(v!=null)vals.push(v);
+      var cur=Math.abs(rr-p[rk])<1e-9&&Math.abs(cc-p[ck])<1e-9;
+      h+='<td class="'+(cur?'cur':'')+'" data-r="'+rr+'" data-c="'+cc+'" style="'+(v==null?'':cell(v))+'" title="'+rf(rr)+' · '+cf(cc)+'">'+(v==null?'n. d.':short(v))+'</td>'});h+='</tr>'});
+    $(id).innerHTML=h+'</tbody></table>';
+    [].forEach.call($(id).querySelectorAll('td'),function(td){td.onclick=function(){var dr=parseFloat(td.getAttribute('data-r'))-p[rk],dc=parseFloat(td.getAttribute('data-c'))-p[ck];S[rk]+=dr;S[ck]+=dc;setPreset(null);update()}});
+    return vals;
+  }
+  var dw=[-.03,-.02,-.01,0,.01,.02,.03],dg=[-.015,-.01,-.005,0,.005,.01,.015];
+  HMV.a=grid('hm1','w','g',dw.map(function(d){return p.w+d}),dg.map(function(d){return p.g+d}),function(v){return pc(v,1)},function(v){return pc(v,1)});
+  HMV.b=grid('hm2','m','gi',[-.03,-.02,-.01,0,.01,.02,.03].map(function(d){return p.m+d}),[-.03,-.02,-.01,0,.01,.02,.03].map(function(d){return p.gi+d}),function(v){return pc(v,1)},function(v){return pc(v,1)});
+}
+function ff(p,r,offer){
+  var mult=[3*FIX.ebitda24-FIX.nd0+FIX.onop,4.5*FIX.ebitda24-FIX.nd0+FIX.onop],sc3=SC||{};
+  var rows=[['DCF · WACC × g',Math.min.apply(null,HMV.a),Math.max.apply(null,HMV.a),'--cyan'],['DCF · margen × crecimiento',Math.min.apply(null,HMV.b),Math.max.apply(null,HMV.b),'--violet'],
+    ['Escenarios',sc3.pes||0,sc3.opt||0,'--pink'],['Monte Carlo P5–P95',LAST?LAST.p5:null,LAST?LAST.p95:null,'--lime'],['Múltiplos EV/EBITDA 3,0x–4,5x (ilustrativo)',mult[0],mult[1],'--amber']];
+  var vals=[offer,r.eq,FIX.book];rows.forEach(function(x){if(x[1]!=null){vals.push(x[1],x[2])}});
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),pad=(mx-mn)*.06;mn-=pad;mx+=pad;
+  var W=800,H=78+rows.length*40,L=230,R=70,T=44,x=sc(mn,mx,L+60,W-R),s='';
+  ticks(mn,mx,6).forEach(function(t){if(x(t)<L+40)return;s+='<line x1="'+x(t)+'" x2="'+x(t)+'" y1="'+T+'" y2="'+(H-24)+'" stroke="var(--grid)"/><text x="'+x(t)+'" y="'+(H-8)+'" text-anchor="middle">'+short(t)+'</text>'});
+  rows.forEach(function(rw,i){var yy=T+12+i*40;s+='<text class="lbl" x="'+(L-10)+'" y="'+(yy+14)+'" text-anchor="end">'+rw[0]+'</text>';
+    if(rw[1]==null){s+='<text x="'+L+'" y="'+(yy+14)+'">ejecute el Monte Carlo</text>';return}
+    s+='<rect x="'+x(rw[1])+'" y="'+yy+'" width="'+Math.max(3,x(rw[2])-x(rw[1]))+'" height="20" rx="6" fill="var('+rw[3]+')" opacity=".85"/><text x="'+(x(rw[1])-4)+'" y="'+(yy+14)+'" text-anchor="end">'+short(rw[1])+'</text><text x="'+(x(rw[2])+4)+'" y="'+(yy+14)+'">'+short(rw[2])+'</text>'});
+  [[offer,'Oferta','--amber'],[r.eq,'Su valor','--ink'],[FIX.book,'Libros','--faint']].forEach(function(l,i){s+='<line x1="'+x(l[0])+'" x2="'+x(l[0])+'" y1="'+(T-6)+'" y2="'+(H-24)+'" stroke="var('+l[2]+')" stroke-width="2" stroke-dasharray="5 4"/><text x="'+x(l[0])+'" y="'+(T-12-i*12)+'" text-anchor="middle" style="fill:var('+l[2]+');font-weight:600">'+l[1]+'</text>'});
+  $('ch_ff').innerHTML='<div class="scroll">'+svg(W,H,s,'Campo de fútbol del valor del patrimonio').replace('<svg ','<svg style="min-width:560px" ')+'</div>';
+  var inside=rows.filter(function(rw){return rw[1]!=null&&offer>=rw[1]&&offer<=rw[2]}).length;
+  $('reading_ff').innerHTML='<b>Lectura.</b> La oferta cae dentro de '+inside+' de '+rows.filter(function(rw){return rw[1]!=null}).length+' rangos. El rango de múltiplos es ilustrativo y no sale de transacciones verificadas: en el informe, sustente el múltiplo con empresas comparables. El patrimonio contable ('+fm(FIX.book)+') es una referencia de balance, no un precio.';
+}
+
+/* ---------- escenarios ---------- */
+var SC=null;
+function scen(p,offer){
+  var out={},names={pes:'Pesimista',base:'Base',opt:'Optimista'},rows=[];
+  ['pes','base','opt'].forEach(function(k){var q=Object.assign({},p),d=PRESET[k];for(var z in d)q[z]+=d[z];var m=model(q);out[k]=m?m.eq:NaN;rows.push([names[k],q,m])});
+  SC=out;
+  var wp=+$('w_pes').value||0,wb=+$('w_base').value||0,wo=+$('w_opt').value||0,tw=wp+wb+wo||1,wv=(out.pes*wp+out.base*wb+out.opt*wo)/tw;
+  $('tb_sc').innerHTML='<table class="data"><thead><tr><th>Escenario</th><th>Margen</th><th>Crec.</th><th>WACC</th><th>g</th><th>Patrimonio</th></tr></thead><tbody>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+pc(r[1].m,1)+'</td><td>'+pc(r[1].gi,1)+'</td><td>'+pc(r[1].w,1)+'</td><td>'+pc(r[1].g,1)+'</td><td>'+(r[2]?fm(r[2].eq):'n. d.')+'</td></tr>'}).join('')+'<tr class="tot"><td>Ponderado ('+wp+'/'+wb+'/'+wo+')</td><td colspan="4"></td><td>'+fm(wv)+'</td></tr></tbody></table>';
+  var W=560,H=230,L=110,R=60,T=10,vals=[out.pes,out.base,out.opt,wv,offer],mn=Math.min(0,Math.min.apply(null,vals)),mx=Math.max.apply(null,vals)*1.1,x=sc(mn,mx,L,W-R),s='',items=[['Pesimista',out.pes,'--coral'],['Base',out.base,'--cyan'],['Optimista',out.opt,'--lime'],['Ponderado',wv,'--violet']];
+  items.forEach(function(it,i){var yy=T+i*46;s+='<text class="lbl" x="'+(L-10)+'" y="'+(yy+22)+'" text-anchor="end">'+it[0]+'</text><rect x="'+Math.min(x(0),x(it[1]))+'" y="'+(yy+6)+'" width="'+Math.abs(x(it[1])-x(0))+'" height="26" rx="6" fill="var('+it[2]+')"/><text x="'+(Math.max(x(0),x(it[1]))+6)+'" y="'+(yy+24)+'" class="lbl">'+short(it[1])+'</text>'});
+  s+='<line x1="'+x(offer)+'" x2="'+x(offer)+'" y1="0" y2="'+(H-14)+'" stroke="var(--amber)" stroke-width="2" stroke-dasharray="5 4"/><text x="'+x(offer)+'" y="'+(H-2)+'" text-anchor="middle" style="fill:var(--amber);font-weight:600">Oferta '+short(offer)+'</text>';
+  $('ch_sc').innerHTML=svg(W,H,s,'Valor por escenario');
+  $('reading_sc').innerHTML='<b>Lectura.</b> El rango entre escenarios va de '+fm(out.pes)+' a '+fm(out.opt)+' millones. El valor ponderado ('+fm(wv)+') '+(wv>=offer?'supera':'queda por debajo de')+' la oferta. La asimetría importa: el pesimista '+(out.base-out.pes>out.opt-out.base?'resta más de lo que el optimista suma':'resta menos de lo que el optimista suma')+', '+(out.base-out.pes>out.opt-out.base?'y eso justifica exigir protección en el precio.':'y eso le da margen para negociar al alza.');
+}
+
+/* ---------- crisis ---------- */
+function chips(p,r){
+  $('chips').innerHTML=SHOCKS.map(function(s){
+    var a2=Object.assign({},active);a2[s.id]=!active[s.id];var p2=Object.assign({},S);SHOCKS.forEach(function(x){if(a2[x.id])x.f(p2)});
+    var r2=model(p2),dl=r2?(r2.eq-r.eq):NaN,shown=active[s.id]?-dl:dl;
+    return '<button type="button" class="chip" data-id="'+s.id+'" aria-pressed="'+(!!active[s.id])+'"><span class="t">'+s.t+'</span><span class="d">'+s.d+'</span><span class="dl '+(shown>=0?'pos':'neg')+'">'+(isNaN(dl)?'n. d.':(shown>=0?'+':'−')+fmt.format(Math.abs(Math.round(shown))))+' M COP</span></button>';
+  }).join('');
+  [].forEach.call($('chips').querySelectorAll('.chip'),function(b){b.onclick=function(){var id=b.getAttribute('data-id');active[id]=!active[id];if(active[id])order.push(id);else order=order.filter(function(x){return x!==id});update();mc()}});
+}
+function drawPath(){
+  var pts=[['Base',model(S)]],q=Object.assign({},S),acc={};
+  order.forEach(function(id){acc[id]=1;var p2=Object.assign({},S);SHOCKS.forEach(function(s){if(acc[s.id])s.f(p2)});pts.push([SHOCKS.filter(function(s){return s.id===id})[0].t,model(p2)])});
+  var vals=pts.map(function(x){return x[1]?x[1].eq:0}),mn=Math.min(0,Math.min.apply(null,vals)),mx=Math.max.apply(null,vals.concat([0]))*1.1+1;
+  var W=760,H=240,L=64,R=48,T=24,B=56,n=Math.max(2,pts.length),x=function(i){return L+i*(W-L-R)/(n-1)},y=sc(mn,mx,H-B,T),s='';
+  ticks(mn,mx,4).forEach(function(t){s+=hline(L,W-R,y(t),css('--grid'))+'<text x="'+(L-6)+'" y="'+(y(t)+4)+'" text-anchor="end">'+short(t)+'</text>'});
+  s+=hline(L,W-R,y(0),css('--muted'));
+  if(pts.length>1)s+='<polyline points="'+vals.map(function(v,i){return x(i)+','+y(v)}).join(' ')+'" fill="none" stroke="var(--coral)" stroke-width="3"/>';
+  vals.forEach(function(v,i){s+='<circle cx="'+x(i)+'" cy="'+y(v)+'" r="6" fill="'+(v>=0?'var(--cyan)':'var(--coral)')+'" stroke="var(--panel)" stroke-width="2"/><text class="lbl" x="'+x(i)+'" y="'+(y(v)-12)+'" text-anchor="middle">'+short(v)+'</text><text x="'+x(i)+'" y="'+(H-B+18)+'" text-anchor="middle">'+(i===0?'Inicio':'Ronda '+i)+'</text>'});
+  if(pts.length===1)s+='<text x="'+(W/2)+'" y="'+(H/2)+'" text-anchor="middle">Active choques para trazar la trayectoria</text>';
+  $('ch_path').innerHTML='<div class="scroll">'+svg(W,H,s,'Trayectoria del valor del patrimonio por ronda de choques').replace('<svg ','<svg style="min-width:520px" ')+'</div>';
+}
+
+/* ---------- tornado ---------- */
+function tornado(p,r){
+  var D=[['WACC','w',.01,'1 pt'],['Crecimiento terminal g','g',.01,'1 pt'],['Margen EBITDA','m',.02,'2 pts'],['Crecimiento de ingresos','gi',.02,'2 pts'],['CAPEX / depreciación','cx',.1,'0,10x'],['KTNO / ingresos','dn',.02,'2 pts'],['Tarifa de impuesto','T',.03,'3 pts']];
+  var rows=D.map(function(d){var a=Object.assign({},p),b=Object.assign({},p);a[d[1]]-=d[2];b[d[1]]+=d[2];var ra=model(a),rb=model(b),xa=ra?ra.eq:r.eq,xb=rb?rb.eq:r.eq;return {n:d[0],lo:Math.min(xa,xb),hi:Math.max(xa,xb),u:d[3]}}).sort(function(a,b){return (b.hi-b.lo)-(a.hi-a.lo)});
+  var mn=Math.min.apply(null,rows.map(function(x){return x.lo})),mx=Math.max.apply(null,rows.map(function(x){return x.hi})),span=mx-mn||1,pad=span*.16;mn-=pad;mx+=pad;span=mx-mn;
+  var X=function(v){return (v-mn)/span*100};
+  $('torn').innerHTML=rows.map(function(x){return '<div class="trow"><span>'+x.n+' <span style="color:var(--faint)">±'+x.u+'</span></span><div class="ttrack"><div class="tbar" style="left:'+X(x.lo)+'%;width:'+(X(x.hi)-X(x.lo))+'%"><i class="a" style="width:'+((r.eq-x.lo)/((x.hi-x.lo)||1)*100)+'%"></i><i class="b" style="flex:1"></i></div><div class="tmid" style="left:'+X(r.eq)+'%"></div><span class="tval" style="right:'+(100-X(x.lo))+'%;margin-right:4px">'+short(x.lo)+'</span><span class="tval" style="left:'+X(x.hi)+'%;margin-left:4px">'+short(x.hi)+'</span></div></div>'}).join('');
+  $('reading3').innerHTML='<b>Lectura.</b> La variable que más mueve el valor es <b>'+rows[0].n+'</b>, con un recorrido de '+fm(rows[0].hi-rows[0].lo)+' millones; le sigue '+rows[1].n+' ('+fm(rows[1].hi-rows[1].lo)+'). Es donde un error de supuesto más cuesta, y donde el informe debe mostrar más evidencia.';
+}
+
+/* ---------- Monte Carlo (mismo generador y orden de sorteo) ---------- */
+function rng(seed){var a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function norm(r){var u=1-r(),v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function tri(r,a,c,b){var u=r(),F=(c-a)/(b-a);return u<F?a+Math.sqrt(u*(b-a)*(c-a)):b-Math.sqrt((1-u)*(b-a)*(b-c))}
+var LAST=null;
+function mc(){
+  var p=eff(),n=parseInt($('mc_n').value),seed=parseInt($('mc_seed').value)||1,R=rng(seed);
+  var sw=parseFloat($('mc_sw').value)/100,mmin=parseFloat($('mc_mmin').value)/100,mmax=parseFloat($('mc_mmax').value)/100,gmin=parseFloat($('mc_gmin').value)/100,gmax=parseFloat($('mc_gmax').value)/100,sgi=parseFloat($('mc_sgi').value)/100;
+  var mm=Math.min(Math.max(p.m,mmin+1e-4),mmax-1e-4),gm=Math.min(Math.max(p.g,gmin+1e-4),gmax-1e-4),v=[],i,q,res;
+  for(i=0;i<n;i++){q=Object.assign({},p);q.w=p.w+sw*norm(R);q.g=tri(R,gmin,gm,gmax);q.m=tri(R,mmin,mm,mmax);q.gi=p.gi+sgi*norm(R);res=model(q);if(res)v.push(res.eq)}
+  v.sort(function(a,b){return a-b});
+  var N=v.length,P=function(x){return v[Math.min(N-1,Math.floor(x*N))]},mean=v.reduce(function(a,b){return a+b},0)/N,offer=parseFloat($('offer').value)||0;
+  var pOver=v.filter(function(x){return x<offer}).length/N,pBook=v.filter(function(x){return x>=FIX.book}).length/N,pNeg=v.filter(function(x){return x<0}).length/N;
+  LAST={v:v,N:N,mean:mean,p5:P(.05),p50:P(.5),p95:P(.95),offer:offer,pOver:pOver,pBook:pBook,pNeg:pNeg,seed:seed,n:n};
+  $('stats').innerHTML=[['P5',fm(P(.05))],['P25',fm(P(.25))],['Mediana',fm(P(.5))],['Media',fm(mean)],['P75',fm(P(.75))],['P95',fm(P(.95))],['P(valor < oferta)',pc(pOver,0)],['P(patrimonio < 0)',pc(pNeg,1)],['P(valor ≥ libros)',pc(pBook,0)]].map(function(s){return '<div class="stat"><div class="l">'+s[0]+'</div><div class="v">'+s[1]+'</div></div>'}).join('');
+  hist(v,P,offer);cdf(v,offer);
+  $('reading2').innerHTML='<b>Lectura.</b> En el '+pc(pOver,0)+' de los '+fm(N)+' escenarios el patrimonio vale menos que la oferta de '+fm(offer)+' millones. '+(pOver>=.5?'Más de la mitad de las veces el comprador paga por encima del valor; quien vende está del lado favorable de la distribución. ':'Hay más probabilidad de que el comprador pague menos de lo que el negocio vale; antes de vender, pida una cifra más alta o una cláusula de ajuste. ')+'En el '+pc(pNeg,1)+' de los casos el valor de la empresa no alcanza a cubrir la deuda neta. El 90 % central va de '+fm(P(.05))+' a '+fm(P(.95))+' millones: ese rango, y no una cifra única, es lo que debe ir al informe.';
+  update();
+}
+function hist(v,P,offer){
+  var W=600,H=260,L=20,Rm=20,T=24,B=36,lo=Math.min(P(.005),0),hi=Math.max(P(.995),offer*1.05),bins=44,bw=(hi-lo)/bins,c=new Array(bins).fill(0),i,x;
+  v.forEach(function(e){x=Math.floor((e-lo)/bw);if(x>=0&&x<bins)c[x]++});
+  var mxc=Math.max.apply(null,c),X=function(e){return L+(e-lo)/(hi-lo)*(W-L-Rm)},Y=function(k){return T+(1-k/mxc)*(H-T-B)},s='';
+  for(i=0;i<bins;i++){var x0=lo+i*bw,col=x0+bw<=0?'var(--pink)':(x0+bw/2<offer?'var(--coral)':'var(--cyan)');s+='<rect x="'+(X(x0)+.5)+'" y="'+Y(c[i])+'" width="'+Math.max(1,X(x0+bw)-X(x0)-1)+'" height="'+(H-B-Y(c[i]))+'" fill="'+col+'" opacity=".9" rx="1.5"/>'}
+  [[offer,'Oferta','--amber'],[P(.5),'Mediana','--ink'],[0,'Cero','--faint']].forEach(function(l,k){if(l[0]<lo||l[0]>hi)return;s+='<line x1="'+X(l[0])+'" x2="'+X(l[0])+'" y1="'+(T-4)+'" y2="'+(H-B)+'" stroke="var('+l[2]+')" stroke-width="2" stroke-dasharray="5 4"/><text x="'+X(l[0])+'" y="'+(T-8-(k===1?0:0))+'" text-anchor="middle" style="fill:var('+l[2]+');font-weight:600">'+l[1]+'</text>'});
+  ticks(lo,hi,5).forEach(function(t){s+='<text x="'+X(t)+'" y="'+(H-B+16)+'" text-anchor="middle">'+short(t)+'</text>'});
+  s+='<text x="'+L+'" y="'+(H-4)+'">Patrimonio, M COP · rojo: por debajo de la oferta · gris: negativo</text>';
+  $('ch_hist').innerHTML=svg(W,H,s,'Histograma del valor del patrimonio');
+}
+function cdf(v,offer){
+  var W=600,H=260,L=44,R=16,T=20,B=36,N=v.length,lo=Math.min(v[Math.floor(N*.005)],0),hi=Math.max(v[Math.floor(N*.995)],offer*1.05),X=sc(lo,hi,L,W-R),Y=sc(0,1,H-B,T),s='',pts=[];
+  [0,.25,.5,.75,1].forEach(function(t){s+=hline(L,W-R,Y(t),css('--grid'))+'<text x="'+(L-6)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+(t*100)+'%</text>'});
+  for(var i=0;i<=200;i++){var q=Math.min(N-1,Math.floor(i/200*(N-1)));var xv=v[q];if(xv<lo||xv>hi)continue;pts.push(X(xv)+','+Y(q/(N-1)))}
+  s+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="var(--violet)" stroke-width="3"/>';
+  var po=v.filter(function(x){return x<offer}).length/N;
+  s+='<line x1="'+X(offer)+'" x2="'+X(offer)+'" y1="'+Y(0)+'" y2="'+Y(po)+'" stroke="var(--amber)" stroke-width="2" stroke-dasharray="5 4"/><line x1="'+L+'" x2="'+X(offer)+'" y1="'+Y(po)+'" y2="'+Y(po)+'" stroke="var(--amber)" stroke-width="2" stroke-dasharray="5 4"/><circle cx="'+X(offer)+'" cy="'+Y(po)+'" r="6" fill="var(--amber)"/><text class="lbl" x="'+(X(offer)+10)+'" y="'+(Y(po)+4)+'">'+pc(po,0)+' por debajo de la oferta</text>';
+  ticks(lo,hi,5).forEach(function(t){s+='<text x="'+X(t)+'" y="'+(H-B+16)+'" text-anchor="middle">'+short(t)+'</text>'});
+  $('ch_cdf').innerHTML=svg(W,H,s,'Curva de probabilidad acumulada del valor del patrimonio');
+}
+
+/* ---------- covenants ---------- */
+function gauge(id,title,val,lim,max,higherBad){
+  var W=260,H=200,cx=130,cy=120,R=96,a0=Math.PI,clampv=Math.max(0,Math.min(max,val)),ang=function(v){return Math.PI+v/max*Math.PI};
+  function arc(v0,v1,col,wd){var A=ang(v0),B=ang(v1);return '<path d="M'+(cx+Math.cos(A)*R)+' '+(cy+Math.sin(A)*R)+' A'+R+' '+R+' 0 0 1 '+(cx+Math.cos(B)*R)+' '+(cy+Math.sin(B)*R)+'" stroke="'+col+'" stroke-width="'+wd+'" fill="none" stroke-linecap="round"/>'}
+  var ok=higherBad?val<=lim:val>=lim,s=arc(0,max,'var(--grid)',16);
+  s+=higherBad?arc(0,lim,'color-mix(in oklab,var(--lime) 40%,transparent)',16)+arc(lim,max,'color-mix(in oklab,var(--coral) 40%,transparent)',16):arc(0,lim,'color-mix(in oklab,var(--coral) 40%,transparent)',16)+arc(lim,max,'color-mix(in oklab,var(--lime) 40%,transparent)',16);
+  var A=ang(clampv);s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+Math.cos(A)*(R-6))+'" y2="'+(cy+Math.sin(A)*(R-6))+'" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/><circle cx="'+cx+'" cy="'+cy+'" r="7" fill="var(--ink)"/>';
+  var L=ang(lim);s+='<line x1="'+(cx+Math.cos(L)*(R-14))+'" y1="'+(cy+Math.sin(L)*(R-14))+'" x2="'+(cx+Math.cos(L)*(R+14))+'" y2="'+(cy+Math.sin(L)*(R+14))+'" stroke="var(--amber)" stroke-width="3"/>';
+  s+='<text class="lbl" x="'+cx+'" y="'+(cy+36)+'" text-anchor="middle" style="font-size:24px;fill:'+(ok?'var(--lime)':'var(--coral)')+'">'+fx(val)+'</text><text x="'+cx+'" y="'+(cy+74)+'" text-anchor="middle">'+title+' · límite '+fx(lim,1)+'</text><text x="'+cx+'" y="'+(cy+56)+'" text-anchor="middle" style="fill:'+(ok?'var(--lime)':'var(--coral)')+';font-weight:600">'+(ok?'CUMPLE':'INCUMPLE')+'</text>';
+  $(id).innerHTML=svg(W,H,s,title+': '+fx(val)+(ok?' cumple':' incumple'));
+}
+function cov(){
+  var L=+$('loan').value,d=+$('drop').value,rt=+$('rate').value,lim=+$('lim_nd').value||3.5,cmin=+$('lim_cob').value||2;
+  $('v_loan').textContent=fm(L);$('v_drop').textContent=pc(d,0);$('v_rate').textContent=pc(rt,2);
+  var E=FIX.ebitda24,nd=FIX.nd0+L,intr=FIX.gf0+L*rt,f=function(dd){return {nd:nd/(E*(1-dd)),cob:E*(1-dd)/intr}},cur=f(d);
+  gauge('gg1','Deuda neta / EBITDA',cur.nd,lim,6,true);gauge('gg2','Cobertura de intereses',cur.cob,cmin,5,false);
+  var W=600,H=260,Lm=44,R=44,T=16,B=36,X=sc(0,.5,Lm,W-R),Y=sc(0,8,H-B,T),Y2=sc(0,5,H-B,T),s='',a=[],b=[];
+  [0,2,4,6,8].forEach(function(t){s+=hline(Lm,W-R,Y(t),css('--grid'))+'<text x="'+(Lm-6)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+t+'x</text>'});
+  [0,1,2,3,4,5].forEach(function(t){s+='<text x="'+(W-R+6)+'" y="'+(Y2(t)+4)+'">'+t+'x</text>'});
+  for(var k=0;k<=50;k++){var dd=k/100,z=f(dd);a.push(X(dd)+','+Y(Math.min(8,z.nd)));b.push(X(dd)+','+Y2(Math.min(5,z.cob)))}
+  s+=hline(Lm,W-R,Y(lim),css('--coral'),1)+'<text x="'+(Lm+4)+'" y="'+(Y(lim)-5)+'" style="fill:var(--coral)">límite '+fx(lim,1)+'</text>';
+  s+=hline(Lm,W-R,Y2(cmin),css('--cyan'),1)+'<text x="'+(W-R-4)+'" y="'+(Y2(cmin)+14)+'" text-anchor="end" style="fill:var(--cyan)">mínimo '+fx(cmin,1)+'</text>';
+  s+='<polyline points="'+a.join(' ')+'" fill="none" stroke="var(--coral)" stroke-width="3"/><polyline points="'+b.join(' ')+'" fill="none" stroke="var(--cyan)" stroke-width="3"/>';
+  s+='<line x1="'+X(d)+'" x2="'+X(d)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="var(--ink)" stroke-dasharray="3 3"/>';
+  [0,.1,.2,.3,.4,.5].forEach(function(t){s+='<text x="'+X(t)+'" y="'+(H-B+16)+'" text-anchor="middle">−'+(t*100)+'%</text>'});
+  s+='<text x="'+((Lm+W-R)/2)+'" y="'+(H-4)+'" text-anchor="middle">Caída del EBITDA frente a 2025</text>';
+  $('ch_cov').innerHTML=svg(W,H,s,'Prueba de estrés de covenants');
+  var h1=1-nd/(lim*E),h2=1-cmin*intr/E,h=Math.min(h1,h2);
+  $('reading_cov').innerHTML='<b>Lectura.</b> Con un crédito de '+fm(L)+' millones, la deuda neta queda en '+fm(nd)+' y los intereses en '+fm(intr)+' al año. '+(h>0?'El EBITDA puede caer hasta '+pc(h,1)+' antes de incumplir la primera cláusula ('+(h1<h2?'deuda neta / EBITDA':'cobertura')+'). ':'La empresa incumple aun sin caída del EBITDA. ')+'Entre 2022 y 2023 el EBITDA histórico cayó '+pc(1-HM[2].ebitda/HM[1].ebitda,0)+'; '+(h<1-HM[2].ebitda/HM[1].ebitda?'una caída así rompería el covenant, y eso es lo que el banco pondrá sobre la mesa.':'la holgura resistiría una caída así.');
+}
+
+/* ---------- eventos ---------- */
+$('reset').onclick=function(){S=Object.assign({},BASE);active={};order=[];setPreset('base');update();mc()};
+[].forEach.call(document.querySelectorAll('.preset'),function(b){b.onclick=function(){var k=b.getAttribute('data-p'),d=PRESET[k];S=Object.assign({},BASE);for(var z in d)S[z]+=d[z];setPreset(k);update();mc()}});
+$('offer').addEventListener('input',function(){update();if(LAST)mc()});
+['w_pes','w_base','w_opt'].forEach(function(id){$(id).addEventListener('input',update)});
+['loan','drop','rate','lim_nd','lim_cob'].forEach(function(id){$(id).addEventListener('input',cov)});
+$('run').onclick=mc;
+$('copy').onclick=function(){
+  var p=eff(),r=model(p);
+  var t='MESA DE VALORACIÓN LÁCTEOS ALTOANDINO DEL SUR\nWACC '+pc(p.w,2)+' | g '+pc(p.g,2)+' | margen EBITDA '+pc(p.m,1)+' | crec. ingresos '+pc(p.gi,1)+' | CAPEX/dep. '+fx(p.cx)+' | KTNO/ing. '+pc(p.dn,1)+' | tarifa '+pc(p.T,0)+' | deuda neta '+fm(p.nd)+'\nChoques activos: '+(order.map(function(id){return SHOCKS.filter(function(s){return s.id===id})[0].t}).join('; ')||'ninguno')+'\nValor del patrimonio: '+fm(r.eq)+' M COP | EV: '+fm(r.ev)+' | valor terminal: '+pc(r.tvp,0)+' del EV\nOferta: '+fm($('offer').value)+' M COP'+(LAST?'\nMonte Carlo ('+fm(LAST.n)+' corridas, semilla '+LAST.seed+'): P5 '+fm(LAST.p5)+' | mediana '+fm(LAST.p50)+' | P95 '+fm(LAST.p95)+' | P(valor < oferta) '+pc(LAST.pOver,0)+' | P(patrimonio < 0) '+pc(LAST.pNeg,1):'');
+  var done=function(){$('toast').textContent='Supuestos copiados.';setTimeout(function(){$('toast').textContent=''},3000)};
+  try{navigator.clipboard.writeText(t).then(done,function(){fallback(t)})}catch(e){fallback(t)}
+  function fallback(x){var ta=document.createElement('textarea');ta.value=x;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){$('toast').textContent='Seleccione y copie manualmente.'}ta.remove()}
+};
+
+/* ---------- WACC paso a paso ---------- */
+var WDEF={wc_rf:'13.18',wc_erp:'4.23',wc_bu:'0.56',wc_wd:'33.37',wc_kd:'17.4',wc_sz:'5.0',wc_mode:'A'};
+function wcIn(){var g=function(i){return parseFloat($(i).value)};return {rf:g('wc_rf')/100,erp:g('wc_erp')/100,bu:g('wc_bu'),wd:g('wc_wd')/100,kd:g('wc_kd')/100,sz:g('wc_sz')/100,T:S.T,mode:$('wc_mode').value}}
+function wcCalc(o){
+  var de=o.wd/(1-o.wd),bl=o.bu*(1+(1-o.T)*de),rf=o.rf,erp=o.erp,capm;
+  if(o.mode==='B'){rf=o.rf-.0187;erp=o.erp+.0285;capm=rf+bl*erp}
+  else if(o.mode==='C'){capm=o.rf+bl*o.erp+.0285}
+  else capm=o.rf+bl*o.erp;
+  var ke=capm+o.sz,kdat=o.kd*(1-o.T),w=ke*(1-o.wd)+kdat*o.wd;
+  return {de:de,bl:bl,capm:capm,ke:ke,kdat:kdat,w:w,ae:ke*(1-o.wd),ad:kdat*o.wd,rf:rf,erp:erp};
+}
+function waccPanel(){
+  var o=wcIn();if([o.rf,o.erp,o.bu,o.wd,o.kd,o.sz].some(function(x){return isNaN(x)})||o.wd<=0||o.wd>=1)return;
+  var c=wcCalc(o),p=eff(),r=model(Object.assign({},p,{w:c.w})),row=function(a,b,k,hl){return '<tr'+(hl?' class="tot"':'')+'><td>'+a+'</td><td>'+b+'</td><td>'+k+'</td></tr>'};
+  $('wc_steps').innerHTML='<table class="data"><thead><tr><th>Paso</th><th>Cuenta</th><th>Resultado</th></tr></thead><tbody>'+
+   row('1. Kd después de impuestos','Kd × (1 − T) = '+pc(o.kd,1)+' × (1 − '+pc(o.T,0)+')',pc(c.kdat,2))+
+   row('2. Relación deuda / patrimonio','D/E = '+pc(o.wd,1)+' ÷ '+pc(1-o.wd,1),fx(c.de,3))+
+   row('3. Beta apalancada','βU × (1 + (1 − T) × D/E) = '+o.bu.toFixed(2).replace('.',',')+' × (1 + '+(1-o.T).toFixed(2).replace('.',',')+' × '+c.de.toFixed(3).replace('.',',')+')',c.bl.toFixed(3).replace('.',','))+
+   row('4. Rentabilidad CAPM','Rf + β × prima'+(o.mode==='A'?'':(o.mode==='B'?' (ajustados por riesgo país)':' + 2,85 pts')),pc(c.capm,2))+
+   row('5. Ke','CAPM + prima de tamaño e iliquidez ('+pc(o.sz,1)+')',pc(c.ke,2))+
+   row('6. WACC','Ke × '+pc(1-o.wd,1)+' + Kd(1−T) × '+pc(o.wd,1),pc(c.w,2),true)+
+   row('Chequeo','Ke − Kd antes de impuestos (el socio no puede exigir menos que el banco)',(c.ke-o.kd>=0?'+':'−')+(Math.abs(c.ke-o.kd)*100).toFixed(2).replace('.',',')+' pts')+
+   '</tbody></table>';
+  var W=520,H=130,L=96,R=24,x=sc(0,.25,L,W-R),s='';
+  [0,.05,.1,.15,.2,.25].forEach(function(t){s+='<line x1="'+x(t)+'" x2="'+x(t)+'" y1="10" y2="86" stroke="var(--grid)"/><text x="'+x(t)+'" y="106" text-anchor="middle">'+pc(t,0)+'</text>'});
+  s+='<text class="lbl" x="'+(L-8)+'" y="32" text-anchor="end">Patrimonio</text><rect x="'+x(0)+'" y="16" width="'+(x(c.ae)-x(0))+'" height="26" rx="5" fill="var(--violet)"/><text class="lbl" x="'+(x(c.ae)+6)+'" y="34">'+pc(c.ae,2)+'</text>';
+  s+='<text class="lbl" x="'+(L-8)+'" y="72" text-anchor="end">Deuda</text><rect x="'+x(0)+'" y="56" width="'+(x(c.ad)-x(0))+'" height="26" rx="5" fill="var(--coral)"/><text class="lbl" x="'+(x(c.ad)+6)+'" y="74">'+pc(c.ad,2)+'</text>';
+  $('ch_wacc').innerHTML=svg(W,H,s,'Aporte del patrimonio y de la deuda al WACC')+'<p class="cap" style="margin:6px 0 0">Suma: <b>'+pc(c.w,2)+'</b> de WACC. Patrimonio: Ke '+pc(c.ke,2)+' × '+pc(1-o.wd,1)+'. Deuda: '+pc(c.kdat,2)+' × '+pc(o.wd,1)+'.</p>';
+  var D=[['TES','rf',.01,function(v){return pc(v,2)}],['Prima de mercado','erp',.01,function(v){return pc(v,2)}],['Beta desapalancada','bu',.1,function(v){return v.toFixed(2).replace('.',',')}],['Estructura D/(D+E)','wd',.05,function(v){return pc(v,0)}],['Kd','kd',.01,function(v){return pc(v,1)}],['Prima de tamaño','sz',.01,function(v){return pc(v,1)}]];
+  var rows=D.map(function(d){var a=Object.assign({},o),b=Object.assign({},o);a[d[1]]-=d[2];b[d[1]]+=d[2];var ca=wcCalc(a),cb=wcCalc(b),ra=model(Object.assign({},p,{w:ca.w})),rb=model(Object.assign({},p,{w:cb.w}));return {n:d[0],a:d[3](a[d[1]]),b:d[3](b[d[1]]),wa:ca.w,wb:cb.w,ea:ra?ra.eq:NaN,eb:rb?rb.eq:NaN}});
+  $('tb_wsens').innerHTML='<table class="data compact"><thead><tr><th>Pieza</th><th>WACC (baja / sube)</th><th>Patrimonio</th></tr></thead><tbody>'+rows.map(function(x){return '<tr><td>'+x.n+'<br><span style="color:var(--faint);font-size:11px">'+x.a+' / '+x.b+'</span></td><td>'+pc(x.wa,2)+'<br>'+pc(x.wb,2)+'</td><td>'+fm(x.ea)+'<br>'+fm(x.eb)+'</td></tr>'}).join('')+'</tbody></table>';
+  var diff=c.w-S.w;
+  $('wc_read').innerHTML='<b>Lectura.</b> Con estas piezas el WACC es '+pc(c.w,2)+' y el patrimonio sería '+(r?fm(r.eq):'n. d.')+' millones. '+(Math.abs(diff)<5e-5?'Es el mismo WACC que usa el modelo ahora.':'El modelo usa hoy '+pc(S.w,2)+'; use el botón para llevar este valor.')+' El Ke ('+pc(c.ke,2)+') queda '+(c.ke>=o.kd?'por encima':'por debajo')+' del Kd antes de impuestos ('+pc(o.kd,1)+')'+(c.ke>=o.kd?', como debe ser: el socio asume más riesgo que el banco.':': revise las piezas, el socio no puede exigir menos que el banco.')+(o.mode==='C'?' Sumar el riesgo país al CAPM calculado con el TES completo cuenta dos veces el riesgo soberano, porque el TES ya incluye ese diferencial.':'')+(o.mode==='B'?' Esta versión resta del TES el diferencial de default y lo agrega como prima, así el riesgo país entra una sola vez.':'');
+}
+$('wc_apply').onclick=function(){var c=wcCalc(wcIn());S.w=Math.max(.10,Math.min(.25,c.w));setPreset(null);update();mc()};
+$('wc_reset').onclick=function(){for(var k in WDEF)$(k).value=WDEF[k];waccPanel()};
+['wc_rf','wc_erp','wc_bu','wc_wd','wc_kd','wc_sz','wc_mode'].forEach(function(id){$(id).addEventListener('input',waccPanel);$(id).addEventListener('change',waccPanel)});
+buildLevers();drawHist();update();mc();cov();
+})();
+</script>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+  function show(id,focus){tabs.forEach(function(t){var on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!on;if(on&&focus)t.focus()});}
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.getAttribute('aria-controls'));try{history.replaceState(null,'','#'+t.getAttribute('aria-controls'))}catch(e){}});
+    t.addEventListener('keydown',function(e){var k=e.key,j=null;if(k==='ArrowRight')j=(i+1)%tabs.length;else if(k==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;if(j!=null){e.preventDefault();show(tabs[j].getAttribute('aria-controls'),true)}});
+  });
+  var h=(location.hash||'').slice(1);if(h&&document.getElementById(h)&&document.getElementById(h).getAttribute('role')==='tabpanel')show(h);else show('resumen');
+})();
+</script>
+
+</body></html>
+</body></html>
